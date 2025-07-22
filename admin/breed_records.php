@@ -257,6 +257,7 @@ include "./../components/header.php";
         document.getElementById('edit_breed_size').value = size;
         document.getElementById('edit_breed_coat').value = coat;
     });
+
     document.getElementById("editBreedForm").addEventListener("submit", function(e) {
         e.preventDefault();
 
@@ -306,14 +307,56 @@ include "./../components/header.php";
 
 
 
-    function deleteBreed(id) {
-        const nameElement = document.querySelector(`#card-title-${id}`);
-        document.getElementById("delete_breed_id").value = id;
-        document.getElementById("delete_breed_name").textContent = nameElement ? nameElement.textContent : "this breed";
+    document.getElementById("deleteBreedForm").addEventListener("submit", function(e) {
+        e.preventDefault();
 
-        const modal = new bootstrap.Modal(document.getElementById('deleteBreedModal'));
-        modal.show();
-    }
+        const form = e.target;
+        const formData = new FormData(form);
+
+        swal({
+            title: "Deleting...",
+            text: "Please wait while we remove this breed.",
+            icon: "info",
+            buttons: false,
+            closeOnClickOutside: false,
+            closeOnEsc: false
+        });
+
+        fetch("./../backend/delete_breed.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "success") {
+                    swal({
+                        title: "Deleted!",
+                        text: data.message,
+                        icon: "success",
+                        buttons: false,
+                        timer: 1000
+                    }).then(() => {
+                        const modal = bootstrap.Modal.getInstance(document.getElementById(
+                            'deleteBreedModal'));
+                        modal.hide();
+                        loadBreeds();
+                    });
+                } else {
+                    swal("Oops!", data.message, "error");
+                }
+            })
+            .catch(error => {
+                console.error("Delete error:", error);
+                swal("Error", "Something went wrong. Please try again.", "error");
+            });
+    });
+
+    document.getElementById('deleteBreedModal').addEventListener('show.bs.modal', function(event) {
+        const button = event.relatedTarget;
+        const id = button.getAttribute('data-bs-id');
+
+        document.getElementById('delete_breed_id').value = id;
+    });
 
 
 
@@ -346,7 +389,7 @@ include "./../components/header.php";
             <button class="btn btn-sm btn-primary w-50 me-1" data-bs-toggle="modal" data-bs-target="#editBreedModal"
                 data-bs-id="${breed.id}" data-bs-name="${breed.name}" data-bs-description="${breed.description}"
                 data-bs-size="${breed.size}" data-bs-coat="${breed.coat_type}">Edit</button>
-            <button class="btn btn-sm btn-danger w-50 ms-1" onclick="deleteBreed(${breed.id})">Delete</button>
+            <button class="btn btn-sm btn-danger w-50 ms-1" data-bs-id="${breed.id}"  data-bs-toggle="modal" data-bs-target="#deleteBreedModal">Delete</button>
         </div>
     </div>
     `;
