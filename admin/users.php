@@ -36,7 +36,7 @@ include "./../components/header.php";
                                 </div>
                                 <div class="modal-body">
 
-                                    <form action="" method="post">
+                                    <form id="AddUserForm">
                                         <div class="row g-3">
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -77,13 +77,82 @@ include "./../components/header.php";
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
                                     </form>
+
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="EditUserModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="EditUserFormLabel" aria-hidden="true">
+                        <div class=" modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Edit User</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
+                                <div class="modal-body">
+
+                                    <form id="EditUserForm">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="first_name">First Name</label>
+                                                    <input type="text" class="form-control" id="edit_first_name"
+                                                        placeholder="" name="first_name" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="last_name">Last Name</label>
+                                                    <input type="text" class="form-control" id="edit_last_name"
+                                                        placeholder="" name="last_name" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="email">Email</label>
+                                                    <input type="email" name="email" id="edit_email"
+                                                        class="form-control" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="username">Username</label>
+                                                    <input type="text" name="username" id="edit_username"
+                                                        class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="password">Password</label>
+                                                    <input type="password" name="password" id="edit_password"
+                                                        class="form-control">
+                                                    <input type="hidden" name="user_id" id="edit_user_id">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -137,6 +206,23 @@ include "./../components/header.php";
     <?php include "./../components/scripts.php" ?>
     <script>
     $(document).ready(function() {
+        const editModal = document.getElementById('EditUserModal');
+        editModal.addEventListener('show.bs.modal', function(event) {
+            const button = event.relatedTarget;
+            const firstName = button.getAttribute('data-fname');
+            const lastName = button.getAttribute('data-lname');
+            const email = button.getAttribute('data-email');
+            const username = button.getAttribute('data-username');
+            const password = button.getAttribute('data-password');
+            const userId = button.getAttribute('data-userid');
+
+            document.getElementById('edit_first_name').value = firstName;
+            document.getElementById('edit_last_name').value = lastName;
+            document.getElementById('edit_email').value = email;
+            document.getElementById('edit_username').value = username;
+            document.getElementById('edit_user_id').value = userId;
+
+        });
         $("#basic-datatables").DataTable({
 
             ajax: {
@@ -166,13 +252,63 @@ include "./../components/header.php";
                     data: null,
                     render: function(data, type, row) {
                         return `
-                        <a href="edit_pet.php?id=${row.id}" class="btn btn-sm btn-warning">Edit</a>
+                        <button type="button" class="btn btn-warning btn-sm"
+    data-bs-toggle="modal"
+    data-bs-target="#EditUserModal"
+    data-username="${row.username}"
+    data-email="${row.email}"
+    data-fname="${row.f_name}"
+    data-lname="${row.l_name}"
+  
+    data-userid="${row.id}">
+    Edit
+</button>
+
                         <button class="btn btn-sm btn-danger" onclick="deletePet(${row.id})">Delete</button>
                     `;
                     }
                 }
             ]
         });
+        document.getElementById("AddUserForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            var formData = new FormData(e.target);
+            swal({
+                title: "Please wait...",
+                text: "Submitting data...",
+                buttons: false,
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+                icon: "https://i.gifer.com/ZZ5H.gif", // optional custom loading gif
+            });
+
+            fetch('./../backend/add_user.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        swal({
+                            title: "All done!",
+                            text: data.message,
+                            icon: "success",
+                            button: false,
+                            timer: 1000
+                        }).then(() => {
+                            $("#AddUserForm").modal('hide');
+                            $("#basic-datatables").DataTable().ajax.reload();
+                        });
+                    } else {
+                        swal("Error", data.message, "error");
+                    }
+                })
+                .catch(error => {
+                    swal("Error", "An error occurred while adding the user.", "error");
+                });
+        });
+
+
     });
     </script>
 </body>

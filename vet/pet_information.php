@@ -114,14 +114,14 @@ include "./../components/header.php";
                         card.innerHTML = `
                         <div class="card h-100">
                             <img src="./../backend/${breed.image_path}" class="card-img-top object-fit-cover" style="aspect-ratio: 3 / 4;" alt="${breed.name}">
-                                <div class="card-body">
-                                    <h5 class="card-title">${breed.name}</h5>
-                                    <p class="card-text">
-                                        ${breed.description}<br>
-                                        Size: <span class="badge ${getSizeBadgeClass(breed.size)}">${breed.size}</span><br>
-                                        Coat: <span class="badge ${getCoatBadgeClass(breed.coat_type)}">${breed.coat_type}</span>
-                                    </p>
-                                </div>
+                            <div class="card-body">
+                                <h5 class="card-title">${breed.name}</h5>
+                                <p class="card-text">
+                                    ${breed.description}<br>
+                                    Size: <span class="badge ${getSizeBadgeClass(breed.size)}">${breed.size}</span><br>
+                                    Coat: <span class="badge ${getCoatBadgeClass(breed.coat_type)}">${breed.coat_type}</span>
+                                </p>
+                            </div>
                             <div class="card-footer d-flex justify-content-between">
         
                         </div>

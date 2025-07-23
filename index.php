@@ -76,7 +76,6 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-    <!-- Navbar -->
     <nav class="navbar navbar-dark bg-dark px-4">
         <a class="navbar-brand d-flex align-items-center" href="#">
             <img src="./assets/img/logo2.svg" alt="Logo" width="auto" height="50" class="me-2" />
@@ -84,15 +83,11 @@
         <div class="ms-auto text-white" id="dateTime"></div>
     </nav>
 
-    <!-- Page Content -->
     <div class="flex-grow-1 d-flex justify-content-center align-items-center">
         <div class="login-container">
             <h3 class="text-center mb-4">Log in</h3>
 
-            <!-- User Type Toggle Full Width -->
-            <!-- User Type Toggle Full Width & Visible Selection -->
 
-            <!-- Form -->
             <form id="loginForm" class="form">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
@@ -122,6 +117,7 @@
     setInterval(updateDateTime, 1000);
     updateDateTime();
     </script>
+    
     <script>
     document.getElementById("loginForm").addEventListener("submit", function(e) {
         e.preventDefault();
