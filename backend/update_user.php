@@ -9,12 +9,12 @@ $f_name = trim($_POST['first_name'] ?? '');
 $l_name = trim($_POST['last_name'] ?? '');
 $username = trim($_POST['username'] ?? '');
 
-if (empty($user_id) || empty($email) || empty($f_name) || empty($l_name) || empty($username)) {
+if ( $user_id === null || !is_numeric($user_id) || empty($email) || empty($f_name) || empty($l_name) || empty($username)) {
     echo json_encode(["success" => false, "message" => "All fields except password are required."]);
     exit;
 }
 
-// Check if email is already taken by another user
+
 $stmt = $conn->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
 $stmt->execute([$email, $user_id]);
 if ($stmt->rowCount() > 0) {
