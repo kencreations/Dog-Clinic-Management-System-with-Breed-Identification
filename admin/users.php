@@ -386,6 +386,7 @@ include "./../components/header.php";
                         }).then(() => {
                             $("#AddUserForm").modal('hide');
                             $("#basic-datatables").DataTable().ajax.reload();
+                            $('#addUserForm')[0].reset();
                         });
                     } else {
                         swal("Error", data.message, "error");
@@ -414,7 +415,7 @@ include "./../components/header.php";
                 })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.success) {
+                    if (data.status === "success") {
                         swal({
                             title: "All done!",
                             text: data.message,
@@ -424,6 +425,7 @@ include "./../components/header.php";
                         }).then(() => {
                             $("#DeleteUserModal").modal('hide');
                             $("#basic-datatables").DataTable().ajax.reload();
+
                         });
                     } else {
                         swal("Error", data.message, "error");
