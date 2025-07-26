@@ -6,6 +6,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 } 
 include "./../components/header.php";
+
+
 ?>
 
 <body>
@@ -21,9 +23,10 @@ include "./../components/header.php";
                             <h3 class="fw-bold mb-3">Add Pet Record</h3>
                         </div>
                         <div class="ms-md-auto py-2 py-md-0">
-                            <a type="button" class="btn btn-primary btn-round" href="pet_records.php">
+                            <button type="button" class="btn btn-primary btn-round" data-bs-toggle="modal"
+                                data-bs-target="#AddUserForm">
                                 Back
-                            </a>
+                            </button>
                         </div>
                     </div>
 
@@ -33,15 +36,17 @@ include "./../components/header.php";
 
                                 <div class="card-body">
                                     <form id="addPetForm" enctype="multipart/form-data">
-
+                                        <!-- SECTION 1: Pet Information -->
                                         <h5 class="mb-3 fw-bold">Pet Information</h5>
                                         <div class="row mb-4">
+                                            <!-- Pet Photo -->
                                             <div class="col-md-4 text-center">
                                                 <img src="https://via.placeholder.com/200" class="img-thumbnail mb-2"
                                                     alt="Pet Photo">
                                                 <input type="file" class="form-control" name="pet_photo">
                                             </div>
 
+                                            <!-- Pet Fields -->
                                             <div class="col-md-8">
                                                 <div class="row">
                                                     <div class="col-md-6 mb-3">
@@ -145,7 +150,8 @@ include "./../components/header.php";
                                         </div>
 
                                         <!-- Submit Button -->
-                                        <button type="submit" class="btn btn-primary">Save Pet Record</button>
+                                        <input type="hidden" name="id">
+                                        <button type="submit" class="btn btn-primary">Update Pet Record</button>
                                     </form>
 
 
@@ -166,7 +172,45 @@ include "./../components/header.php";
     <script>
     $(document).ready(function() {
         $("#basic-datatables").DataTable({});
+        const searchID = new URLSearchParams(window.location.search),
+            pet_id = searchID.get('id');
 
+        console.log(pet_id)
+        const url = `./../backend/get_pets.php?id=${encodeURIComponent(pet_id)}`;
+
+
+        fetch(url)
+            .then(res => res.json())
+            .then(datas => {
+                const data = datas.data[0];
+
+                document.querySelector('input[name="id"]').value = pet_id;
+                document.querySelector('input[name="pet_name"]').value = data.pet_name || '';
+                document.querySelector('input[name="age"]').value = data.age || '';
+                document.querySelector('input[name="birth_date"]').value = data.birth_date || '';
+                document.querySelector('input[name="breed"]').value = data.breed || '';
+                document.querySelector('input[name="height"]').value = data.height_cm || '';
+                document.querySelector('input[name="weight"]').value = data.weight_kg || '';
+                document.querySelector('select[name="gender"]').value = data.gender || '';
+                document.querySelector('input[name="color"]').value = data.color || '';
+
+                document.querySelector('textarea[name="allergies"]').value = data.allergies || '';
+                document.querySelector('textarea[name="existing_conditions"]').value = data
+                    .existing_conditions || '';
+                document.querySelector('input[name="assigned_vet"]').value = data.assigned_vet || '';
+
+                document.querySelector('input[name="owner_name"]').value = data.owner_name || '';
+                document.querySelector('input[name="owner_phone"]').value = data.owner_phone || '';
+                document.querySelector('input[name="owner_email"]').value = data.owner_email || '';
+                document.querySelector('input[name="barangay"]').value = data.barangay || '';
+                document.querySelector('input[name="town_city"]').value = data.town_city || '';
+                document.querySelector('input[name="province"]').value = data.province || '';
+                document.querySelector('input[name="country"]').value = data.country || '';
+                document.querySelector('input[name="zip_code"]').value = data.zip_code || '';
+
+                // Optional: Display pet photo if available
+
+            })
 
     });
     </script>
@@ -177,31 +221,30 @@ include "./../components/header.php";
         const form = e.target;
         const formData = new FormData(form);
 
-        fetch("./../backend/add_pet.php", {
+        fetch("./../backend/update_pet.php", {
                 method: "POST",
                 body: formData
             })
             .then(res => res.json())
             .then(data => {
-                if (data.status === "success") {
+                if (data.success) {
                     swal({
-                        title: "Good job!",
+                        title: "Record Updated Successfully.",
                         text: data.message,
                         icon: "success",
-                        button: "OK",
+                        button: false,
+                        timer: 1500
                     }).then(() => {
-                        // Reset form
+                        window.location.href =
+                            "pet_records.php";
                         form.reset();
 
-                        // Optional: Reset pet image preview
                         const imgPreview = document.querySelector("img.img-thumbnail");
                         if (imgPreview) {
                             imgPreview.src = "https://via.placeholder.com/200";
                         }
 
-                        // Redirect after confirmation
-                        window.location.href =
-                            "pet_records.php"; // change to your desired redirect page
+
                     });
                 } else {
                     swal("Oops!", data.message, "error");

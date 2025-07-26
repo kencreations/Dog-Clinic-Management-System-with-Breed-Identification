@@ -5,7 +5,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] != '1') {
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] != '0') {
     header("Location: ../index.php");
     exit();
 }
@@ -33,7 +33,7 @@ include "../components/header.php";
                                         <div class="col col-stats ms-3 ms-sm-0">
                                             <div class="numbers">
                                                 <p class="card-category">Users</p>
-                                                <h4 class="card-title">1,294</h4>
+                                                <h4 class="card-title" id="totalUsers">...</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -52,7 +52,7 @@ include "../components/header.php";
                                         <div class="col col-stats ms-3 ms-sm-0">
                                             <div class="numbers">
                                                 <p class="card-category">Patients</p>
-                                                <h4 class="card-title">1303</h4>
+                                                <h4 class="card-title" id="totalPatients">...</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -71,7 +71,7 @@ include "../components/header.php";
                                         <div class="col col-stats ms-3 ms-sm-0">
                                             <div class="numbers">
                                                 <p class="card-category">Dog Breeds</p>
-                                                <h4 class="card-title">45</h4>
+                                                <h4 class="card-title" id="totalBreeds">...</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -144,7 +144,7 @@ include "../components/header.php";
                 fill: true,
                 borderWidth: 2,
                 data: [
-                    542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 900,
+
                 ],
             }, ],
         },
@@ -216,6 +216,28 @@ include "../components/header.php";
             },
         },
     });
+
+
+    $(document).ready(() => {
+        fetch('./../backend/dashboard_stats.php')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("totalUsers").textContent = data.users;
+                document.getElementById("totalPatients").textContent = data.patients;
+                document.getElementById("totalBreeds").textContent = data.breeds;
+
+                myLineChart.data.datasets[0].data = data.monthly;
+                myLineChart.update();
+
+                const male = data.gender.Male || 0;
+                const female = data.gender.Female || 0;
+                myPieChart.data.datasets[0].data = [male, female];
+                myPieChart.update();
+            })
+            .catch(err => {
+                console.error("Failed to load dashboard data:", err);
+            });
+    })
     </script>
 </body>
 

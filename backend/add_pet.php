@@ -1,10 +1,8 @@
 <?php
-// add_pet_process.php
 header('Content-Type: application/json');
-include 'connection.php'; // Make sure DB connection is correct
+include 'connection.php'; 
 
 try {
-    // Validate required fields
     if (
         empty($_POST['pet_name']) || empty($_POST['age']) ||
         empty($_POST['birth_date']) || empty($_POST['breed']) ||
@@ -15,7 +13,6 @@ try {
         exit;
     }
 
-    // Collect all form data
     $pet_name = $_POST['pet_name'];
     $age = $_POST['age'];
     $birth_date = $_POST['birth_date'];
@@ -38,9 +35,6 @@ try {
     $country = $_POST['country'] ?? null;
     $zip_code = $_POST['zip_code'] ?? null;
 
-    // Optional: handle pet_photo upload here
-
-    // Insert into the database
     $stmt = $conn->prepare("INSERT INTO pet_records (
     pet_name, age, birth_date, breed, height_cm, weight_kg, gender, color,
     allergies, existing_conditions, assigned_vet,

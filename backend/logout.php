@@ -1,15 +1,7 @@
 <?php
-
 session_start();
-header('Content-Type: application/json');
-include 'connection.php';
+session_unset(); 
+session_destroy(); 
 
-session_destroy();
-echo json_encode([
-    "success" => true,
-    "message" => "Logout successful.",
-    "redirect" => "./login.php"
-]);
-exit;
-
-?>
+header("Location: ../index.php"); 
+exit();

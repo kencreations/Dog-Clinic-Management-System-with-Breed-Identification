@@ -43,18 +43,18 @@
                             <li>
                                 <div class="user-box">
                                     <div class="avatar-lg">
-                                        <img src="assets/img/profile.jpg" alt="image profile"
+                                        <img src="../assets/img/profile2.jpg" alt="image profile"
                                             class="avatar-img rounded" />
                                     </div>
                                     <div class="u-text">
-                                        <h4>Admin</h4>
-                                        <p class="text-muted">hello@example.com</p>
-                                        <a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+                                        <h4><?php echo $_SESSION['name'];?></span></h4>
+                                        <p class="text-muted"><?php echo $_SESSION['email'];?></span></p>
+
                                     </div>
                                 </div>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#">Logout</a>
+                                <a class="dropdown-item" href="./../backend/logout.php">Logout</a>
                             </li>
                         </div>
                     </ul>
