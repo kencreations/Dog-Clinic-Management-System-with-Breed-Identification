@@ -444,7 +444,8 @@ include "./../components/header.php";
                             title: "All done!",
                             text: data.message,
                             icon: "success",
-                            button: "OK",
+                            button: false,
+                            timer: 1000
                         }).then(() => {
                             form.reset();
 

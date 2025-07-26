@@ -41,8 +41,8 @@ $post_last_login = $conn->prepare("UPDATE users SET last_login = NOW() WHERE id 
 $post_last_login->execute([$user['id']]);
 
 $redirect = match($user['role']) {
-    '1' => './admin/dashboard.php',
-    '2' => './vet/dashboard.php',
+    '0' => './admin/dashboard.php',
+    '1' => './vet/dashboard.php',
     default => './dashboard.php',
 };
 
