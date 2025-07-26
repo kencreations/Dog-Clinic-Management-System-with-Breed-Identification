@@ -294,6 +294,27 @@ include "./../components/header.php";
                 {
                     data: null,
                     render: function(data, type, row) {
+                        if (row.role != 0) {
+                            return `<button type="button" class="btn btn-warning btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#EditUserModal"
+                            data-username="${row.username}"
+                            data-email="${row.email}"
+                            data-fname="${row.f_name}"
+                            data-lname="${row.l_name}"
+  
+                            data-userid="${row.id}">
+                            Edit
+                        </button> 
+                        
+                        <button type="button" class="btn btn-danger btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#DeleteUserModal"
+                            data-username="${row.username}"
+                            data-userid="${row.id}">
+                            Delete
+                        </button>`
+                        }
                         return `
                         <button type="button" class="btn btn-warning btn-sm"
                             data-bs-toggle="modal"
@@ -307,13 +328,7 @@ include "./../components/header.php";
                             Edit
                         </button>
 
-                        <button type="button" class="btn btn-danger btn-sm"
-                            data-bs-toggle="modal"
-                            data-bs-target="#DeleteUserModal"
-                            data-username="${row.username}"
-                            data-userid="${row.id}">
-                            Delete
-                        </button>
+                        
 
                         
                     `;
