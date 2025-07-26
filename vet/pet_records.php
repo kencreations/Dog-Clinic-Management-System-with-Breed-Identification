@@ -2,6 +2,16 @@
 <html lang="en">
 
 <?php 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] != '1') {
+    header("Location: ../index.php");
+    exit();
+}
 include "./../components/header.php";
 ?>
 
@@ -33,7 +43,7 @@ include "./../components/header.php";
                                 </div>
                                 <div class="ms-md-auto py-2 py-md-0">
                                     <a href="add_pet.php" class="btn btn-primary btn-round">Add Pet</a>
-                                    <a href="add_pet.php" class="btn btn-danger btn-round">Back</a>
+                                    <a href="dashboard.php" class="btn btn-danger btn-round">Back</a>
                                 </div>
                             </div>
                         </div>
@@ -60,188 +70,7 @@ include "./../components/header.php";
                                             <th>Action</th>
                                         </tr>
                                     </tfoot>
-                                    <tbody>
-                                        <tr>
-                                            <td>1001</td>
-                                            <td>Ana Villanueva</td>
-                                            <td>ana_v</td>
-                                            <td>ana.villanueva@example.com</td>
-                                            <td>123 Sampaguita St., Quezon City</td>
-                                            <td>
-                                                <button class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#DeleteUser">
-                                                    <span class="btn-label"><i class="fa fa-trash"></i></span>
-                                                    Delete
-                                                </button>
-                                                <button class="btn btn-warning">
-                                                    <span class="btn-label"><i class="fa fa-edit"></i></span>
-                                                    Edit
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1002</td>
-                                            <td>John Reyes</td>
-                                            <td>john_r</td>
-                                            <td>john.reyes@example.com</td>
-                                            <td>45 Mabini St., Makati</td>
-                                            <td>
-                                                <button class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#DeleteUser">
-                                                    <span class="btn-label"><i class="fa fa-trash"></i></span>
-                                                    Delete
-                                                </button>
-                                                <button class="btn btn-warning">
-                                                    <span class="btn-label"><i class="fa fa-edit"></i></span>
-                                                    Edit
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1003</td>
-                                            <td>Mariel Santos</td>
-                                            <td>mariel_s</td>
-                                            <td>mariel.santos@example.com</td>
-                                            <td>7 Cattleya Rd., Taguig</td>
-                                            <td>
-                                                <button class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#DeleteUser">
-                                                    <span class="btn-label"><i class="fa fa-trash"></i></span>
-                                                    Delete
-                                                </button>
-                                                <button class="btn btn-warning">
-                                                    <span class="btn-label"><i class="fa fa-edit"></i></span>
-                                                    Edit
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1004</td>
-                                            <td>Kevin Cruz</td>
-                                            <td>kevcruz</td>
-                                            <td>kevin.cruz@example.com</td>
-                                            <td>25 Rizal Ave., Pasig</td>
-                                            <td>
-                                                <button class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#DeleteUser">
-                                                    <span class="btn-label"><i class="fa fa-trash"></i></span>
-                                                    Delete
-                                                </button>
-                                                <button class="btn btn-warning">
-                                                    <span class="btn-label"><i class="fa fa-edit"></i></span>
-                                                    Edit
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1005</td>
-                                            <td>Jasmine Dela Cruz</td>
-                                            <td>jasdelacruz</td>
-                                            <td>jasmine.dc@example.com</td>
-                                            <td>99 Maginhawa St., QC</td>
-                                            <td>
-                                                <button class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#DeleteUser">
-                                                    <span class="btn-label"><i class="fa fa-trash"></i></span>
-                                                    Delete
-                                                </button>
-                                                <button class="btn btn-warning">
-                                                    <span class="btn-label"><i class="fa fa-edit"></i></span>
-                                                    Edit
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1006</td>
-                                            <td>Marco Mendoza</td>
-                                            <td>mmendoza</td>
-                                            <td>marco.mendoza@example.com</td>
-                                            <td>12 Bonifacio St., Valenzuela</td>
-                                            <td>
-                                                <button class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#DeleteUser">
-                                                    <span class="btn-label"><i class="fa fa-trash"></i></span>
-                                                    Delete
-                                                </button>
-                                                <button class="btn btn-warning">
-                                                    <span class="btn-label"><i class="fa fa-edit"></i></span>
-                                                    Edit
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1007</td>
-                                            <td>Bianca Lopez</td>
-                                            <td>bianca_l</td>
-                                            <td>bianca.lopez@example.com</td>
-                                            <td>66 Aurora Blvd., Manila</td>
-                                            <td>
-                                                <button class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#DeleteUser">
-                                                    <span class="btn-label"><i class="fa fa-trash"></i></span>
-                                                    Delete
-                                                </button>
-                                                <button class="btn btn-warning">
-                                                    <span class="btn-label"><i class="fa fa-edit"></i></span>
-                                                    Edit
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1008</td>
-                                            <td>Luis Ramirez</td>
-                                            <td>lramirez</td>
-                                            <td>luis.ramirez@example.com</td>
-                                            <td>5 Katipunan Ave., Marikina</td>
-                                            <td>
-                                                <button class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#DeleteUser">
-                                                    <span class="btn-label"><i class="fa fa-trash"></i></span>
-                                                    Delete
-                                                </button>
-                                                <button class="btn btn-warning">
-                                                    <span class="btn-label"><i class="fa fa-edit"></i></span>
-                                                    Edit
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1009</td>
-                                            <td>Nicole Tan</td>
-                                            <td>nicole_t</td>
-                                            <td>nicole.tan@example.com</td>
-                                            <td>88 San Juan Blvd., San Juan City</td>
-                                            <td>
-                                                <button class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#DeleteUser">
-                                                    <span class="btn-label"><i class="fa fa-trash"></i></span>
-                                                    Delete
-                                                </button>
-                                                <button class="btn btn-warning">
-                                                    <span class="btn-label"><i class="fa fa-edit"></i></span>
-                                                    Edit
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>1010</td>
-                                            <td>Daniel Go</td>
-                                            <td>dan_go</td>
-                                            <td>daniel.go@example.com</td>
-                                            <td>21 Quirino Highway, Caloocan</td>
-                                            <td>
-                                                <button class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#DeleteUser">
-                                                    <span class="btn-label"><i class="fa fa-trash"></i></span>
-                                                    Delete
-                                                </button>
-                                                <button class="btn btn-warning">
-                                                    <span class="btn-label"><i class="fa fa-edit"></i></span>
-                                                    Edit
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+
 
 
 
@@ -249,7 +78,36 @@ include "./../components/header.php";
                             </div>
                         </div>
                     </div>
+                    <div class="modal fade" id="DeleteUserModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="DeleteUserFormLabel" aria-hidden="true">
+                        <div class=" modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Edit User</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
 
+                                    <form id="DeleteUserForm">
+                                        <h2>
+                                            Are you sure you want to delete this pet record?
+                                            <input type="hidden" name="user_id" id="delete_user_id">
+                                            <input type="text" name="username" id="delete_username" readonly>
+                                        </h2>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Yes</button>
+                                </div>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
 
 
 
@@ -261,9 +119,91 @@ include "./../components/header.php";
     <?php include "./../components/scripts.php" ?>
     <script>
     $(document).ready(function() {
-        $("#basic-datatables").DataTable({});
+        $('#basic-datatables').DataTable({
+            ajax: {
+                url: './../backend/get_pets.php',
+                dataSrc: 'data'
+            },
+            columns: [{
+                    data: 'id'
+                },
+                {
+                    data: 'owner_name'
+                },
+                {
+                    data: 'pet_name'
+                },
+                {
+                    data: 'gender'
+                },
+                {
+                    data: 'age'
+                },
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        return `
+                        <a href="edit_pet.php?id=${row.id}" class="btn btn-sm btn-warning">Edit</a>
+                        <button type="button" class="btn btn-danger btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#DeleteUserModal"
+                            data-username="${row.pet_name}"
+                            data-userid="${row.id}">
+                            Delete
+                        </button>
+                    `;
+                    }
+                }
+            ]
+        });
+        const deleteModal = document.getElementById('DeleteUserModal');
+        deleteModal.addEventListener('show.bs.modal', function(event) {
+            const button = event.relatedTarget;
+            const username = button.getAttribute('data-username');
+            const userId = button.getAttribute('data-userid');
 
+            document.getElementById('delete_username').value = username;
+            document.getElementById('delete_user_id').value = userId;
 
+        });
+        document.getElementById("DeleteUserForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            var formData = new FormData(e.target);
+            swal({
+                title: "Please wait...",
+                text: "Deleting data...",
+                buttons: false,
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+                icon: "https://i.gifer.com/ZZ5H.gif", // optional custom loading gif
+            });
+
+            fetch('./../backend/delete_pet.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        swal({
+                            title: "All done!",
+                            text: data.message,
+                            icon: "success",
+                            button: false,
+                            timer: 1000
+                        }).then(() => {
+                            $("#DeleteUserModal").modal('hide');
+                            $("#basic-datatables").DataTable().ajax.reload();
+
+                        });
+                    } else {
+                        swal("Error", data.message, "error");
+                    }
+                })
+                .catch(error => {
+                    swal("Error", "An error occurred while deleting the user.", "error");
+                });
+        });
     });
     </script>
 </body>

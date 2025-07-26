@@ -2,6 +2,13 @@
 <html lang="en">
 
 <?php 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] != '1') {
+    header("Location: ../index.php");
+    exit();
+}
 include "./../components/header.php";
 ?>
 <style>
@@ -36,7 +43,7 @@ include "./../components/header.php";
                             <div class="card-head-row">
                                 <div class="card-title">Dog Breed Information</div>
                                 <div class="card-tools">
-                                    <a href="#" class="btn btn-label-primary btn-round btn-sm me-2">
+                                    <a href="dashboard.php" class="btn btn-label-primary btn-round btn-sm me-2">
                                         <span class="btn-label">
                                             <i class="fa fa-arrow-left"></i>
                                         </span>
